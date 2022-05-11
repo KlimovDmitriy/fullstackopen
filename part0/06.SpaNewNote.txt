@@ -1,0 +1,10 @@
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa with body {content:'text', date:'new Date()'}
+note over server:
+server add new note
+end note
+server-->browser: Answer 201 code
+
+
+note over browser:
+Via JS add new note
+end note
