@@ -21,9 +21,9 @@
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
-  "name": "backend",
+  "name": "phonebook",
   "version": "1.0.0",
-  "description": "FullStackOpen Backend",
+  "description": "FullStackOpen Phonebook Backend",
   "main": "index.js",
   "repository": {
     "type": "git",
