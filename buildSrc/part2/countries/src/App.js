@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react'
 import axios from 'axios'
-// TODO 2.13-2.14
+// TODO 2.14
 const App = () => {
   const [countries, setCountries] = useState([])
   const [countryFilter, setCountryFilter] = useState('')
@@ -20,7 +20,10 @@ const App = () => {
         {c.length > 10
           ? <p>Too many countries</p>
           : c.length > 1
-            ? c.map(country => <p key={country.cca2}>{country.name.common}</p>)
+            ? c.map(country => <p key={country.cca2}>{country.name.common}
+              <button value={country.name.common} onClick={(event) => setCountryFilter(event.target.value)}>Show
+              </button>
+            </p>)
             : c.map(country => {
               return <div key={country.cca2}>
                 <h2>{country.name.common}</h2>

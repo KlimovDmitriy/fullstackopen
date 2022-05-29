@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const baseUrl = '/api/persons/'
+const baseUrl = '/persons/'
 
 const getAllPersons = () => {
   const request = axios.get(baseUrl)
@@ -16,5 +16,10 @@ const deletePerson = (id) => {
   const request = axios.delete(baseUrl + id)
   return request.then((response) => response.data)
 }
-const PhonebookService = {getAllPersons, addPerson, deletePerson}
+
+const updatePerson = (id, person) => {
+  const request = axios.put(baseUrl + id, person)
+  return request.then((response) => response.data).catch((err) => err.response)
+}
+const PhonebookService = {getAllPersons, addPerson, deletePerson, updatePerson}
 export default PhonebookService

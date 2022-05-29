@@ -1,7 +1,11 @@
+import phonebookService from "../services/PhonebookService";
+
 const Persons = ({values, serviceDelete, handlers}) => {
   const deletePerson = (id) => {
-    serviceDelete(id)
-      .then(() => handlers.setPersons(values.persons.filter(el => el.id !== id)))
+    if (window.confirm(`Are you sure you want to delete ${values.persons.filter(el => el.id === id)[0].name}?`)) {
+      serviceDelete(id)
+        .then(() => handlers.setPersons(values.persons.filter(el => el.id !== id)))
+    }
   }
   return (!values.filter
     ? values.persons.map((person) =>
@@ -23,7 +27,18 @@ const PersonForm = ({values, handlers, service}) => {
   function addPersons(e) {
     e.preventDefault()
     if (values.persons.find(el => el.name === values.newName)) {
-      alert(`${values.newName} is already added to phonebook`)
+      let findPerson = {...values.persons.find(el => el.name === values.newName), number: values.newPhone}
+      if (window.confirm(`Are you sure you want to update ${findPerson.name} number?`)) {
+        service.updatePerson(findPerson.id, findPerson).then((response) => {
+          if (response?.status === 404) {
+            handlers.setDbMessage(response.statusText)
+            setTimeout(() => handlers.setDbMessage(''), 2000)
+          } else {
+            const newPersons = values.persons.filter(el => el.id !== response.id).concat(response)
+            handlers.setPersons(newPersons)
+          }
+        })
+      }
       return true
     }
     const person = {name: values.newName, number: values.newPhone}

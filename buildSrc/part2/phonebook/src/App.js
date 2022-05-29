@@ -2,8 +2,6 @@ import {useEffect, useState} from 'react'
 import PhonebookService from './services/PhonebookService'
 import Phonebook from './components/Phonebook'
 
-//TODO 2.18, 2.20
-
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
