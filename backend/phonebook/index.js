@@ -1,4 +1,4 @@
-// TODO 3.8, 3.16
+// TODO  3.16
 require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
@@ -7,12 +7,18 @@ const cors = require('cors');
 const app = express();
 const Person = require('./models/person');
 
-morgan('tiny');
-
+morgan.token('test', (req, res) => `${JSON.stringify(req.body)} `);
+const morganFormat = morgan((tokens, req, res) => [
+  tokens.method(req, res),
+  tokens.url(req, res),
+  tokens.status(req, res),
+  tokens.res(req, res, 'content-length'), '-',
+  tokens['response-time'](req, res), 'ms',
+  tokens.test(req, res),
+].join(' '));
 app.use(express.static('build'));
 app.use(express.json());
-
-app.use(morgan('combined'));
+app.use(morganFormat);
 app.use(cors());
 
 app.get('/api/persons', (request, response) => {
