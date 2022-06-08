@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken')
+const {SECRET} = require('../utils/config')
 const Blog = require('../models/blog')
 const User = require('../models/user')
 const blogsRouter = require('express').Router()
@@ -9,12 +11,16 @@ blogsRouter.get('/api/blogs', async (request, response) => {
 
 blogsRouter.post('/api/blogs', async (request, response) => {
   const body = request.body
-  const users = await User.find({})
-  const user = users[0]
+
+  const decodedToken = jwt.verify(request.token, SECRET)
+  const userId = decodedToken.id
+  const user = await User.findById(userId)
+
+
   const blog = new Blog({
     title: body.title,
     content: body.content,
-    user: user._id,
+    user: userId,
     url: body.url,
     likes: body.likes
   })
