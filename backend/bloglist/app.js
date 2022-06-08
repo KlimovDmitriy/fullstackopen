@@ -1,4 +1,4 @@
-// TODO 4.18-4.23
+// TODO 4.21-4.23
 require('express-async-errors')
 const express = require('express')
 const app = express()
@@ -7,12 +7,15 @@ const {MONGODB_URL} = require('./utils/config')
 const mongoose = require('mongoose')
 const blogsRouter = require('./controllers/blogs')
 const usersRouter = require('./controllers/users')
+const loginRouter = require('./controllers/login')
 const middleware = require('./utils/middleware')
 mongoose.connect(MONGODB_URL)
 app.use(cors())
 app.use(express.json())
+app.use(middleware.tokenExtractor)
 app.use('/', blogsRouter)
 app.use('/', usersRouter)
+app.use('/api/login', loginRouter)
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
 module.exports = app
