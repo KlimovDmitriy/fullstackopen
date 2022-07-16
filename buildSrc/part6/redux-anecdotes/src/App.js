@@ -4,13 +4,12 @@ import Notification from "./components/Notification"
 import Filter from "./components/Filter";
 import {useDispatch} from "react-redux";
 import {useEffect} from "react";
-import anecdoteService from "./services/anecdoteService";
-import {setAnecdoteList} from "./reducers/anecdoteReducer";
+import {initializeAnedotes} from "./reducers/anecdoteReducer";
 
 const App = () => {
   const dispatch = useDispatch()
   useEffect(() => {
-    anecdoteService.getAnecdotes().then(response => dispatch(setAnecdoteList(response)));
+    dispatch(initializeAnedotes());
   }, [dispatch])
   return (
     <div>

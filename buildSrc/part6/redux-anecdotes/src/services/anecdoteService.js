@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = 'http://localhost:3001/anecdotes'
+const baseUrl = 'http://localhost:3001/anecdotes/'
 
 const getAnecdotes = async () => {
   const request = await axios.get(baseUrl)
@@ -12,6 +12,9 @@ const addAnecdote = async (anecdote) => {
   return request.data
 }
 
-
-const AnecdoteService = {getAnecdotes, addAnecdote}
+const voteAnecdote = async (anecdote) => {
+  const request = await axios.put(baseUrl + anecdote.id, anecdote)
+  return request.data
+}
+const AnecdoteService = {getAnecdotes, addAnecdote, voteAnecdote}
 export default AnecdoteService
