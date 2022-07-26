@@ -1,3 +1,4 @@
+// TODO 6.19-6.21 Reformat to old style connect()
 import AnecdoteList from "./components/AnecdoteList";
 import AnecdoteForm from "./components/AnecdoteForm"
 import Notification from "./components/Notification"
