@@ -1,4 +1,4 @@
-//TODO 5.4, 5.13-5.22
+//TODO 5.13-5.22
 
 import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
@@ -6,12 +6,14 @@ import BlogForm from './components/BlogForm'
 import Toggleable from './components/Toggleable'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import Notification from './components/Notification'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [notification, setNotification] = useState(null)
 
   useEffect(() => {
     blogService.getAll().then(blogs => {
@@ -51,6 +53,7 @@ const App = () => {
       const resolve = await blogService.create(blog)
       setBlogs(blogs.concat(resolve))
       blogFormRef.current.toggleVisible()
+      showNotification(`You added ${blog.title}`)
     } catch (e) {
       console.log(e)
     }
@@ -60,6 +63,7 @@ const App = () => {
     try {
       const resolve = await blogService.update(blog)
       setBlogs(blogs.concat(resolve))
+      showNotification(`You update ${blog.title}`)
     } catch (e) {
       console.log(e)
     }
@@ -72,6 +76,13 @@ const App = () => {
     } catch (e) {
       console.log(e)
     }
+  }
+
+  const showNotification = (text) => {
+    console.log(text)
+    setNotification(text)
+    console.log(notification)
+    setTimeout(() => setNotification(null), 5000)
   }
 
 
@@ -99,6 +110,7 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
+      <Notification text={notification} />
       <div>{user.name} logged in <button onClick={() => {
         window.localStorage.removeItem('user')
         setUser(null)
